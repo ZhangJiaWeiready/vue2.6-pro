@@ -169,7 +169,8 @@ export default {
       const { getFieldError, isFieldTouched } = this.form;
       return isFieldTouched('password') && getFieldError('password');
     },
-    async handleSubmit() {
+    async handleSubmit(e) {
+      e.preventDefault();
       try {
         const params ={ 
           username: 'zhangjiawei',
@@ -179,25 +180,25 @@ export default {
         if(data.code === 200 && data.data.token) {
           store.set('token', data.data.token)
           store.set('username', data.data.username)
+          const {redirect} = this.$route.query
+          if(redirect) {
+            this.$router.push(redirect)
+          } else {
+            this.$router.push('/')
+          }
         }else {
           throw data
         }
       } catch(e) {
         console.log('错误--->', e);
       }
-      // e.preventDefault();
-      // // 使用了form组件之后会默认绑定上this.form
-      // this.form.validateFields((err, values) => {
-      //   if(!err) {
-      //     console.log('登录--->', values);
-      //   }
-      // })
     },
     handleChange(value) {
       console.log(value);
     },
-    onHandleLoginMethod(type) {
-      alert(type)
+    async onHandleLoginMethod(type) {
+      // alert(type)
+      console.log('type--->', type);
     },
     onHandleBottom(type) {
       alert(type)
