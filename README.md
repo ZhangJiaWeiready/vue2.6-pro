@@ -1,3 +1,7 @@
+<!--
+ * @Author: zhangjiawei
+ * @Date: 2021-01-22 15:50:17
+-->
 # vue2-pro
 
 ## Project setup
@@ -42,3 +46,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 2. 部分UI组件体积较大，例如DatePicker，根据业务需求，应考虑在页面中进行加载，尽量保证首屏加载得速度
 3. 覆盖ant得样式less文件
   
+
+4. 封装axios
+  1. 引入axios
+  引入store
+    本地存储，存储到localstorage

@@ -91,6 +91,7 @@
   </div>
 </template>
 <script>
+import store from 'store'
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
@@ -168,14 +169,29 @@ export default {
       const { getFieldError, isFieldTouched } = this.form;
       return isFieldTouched('password') && getFieldError('password');
     },
-    handleSubmit(e) {
-      e.preventDefault();
-      // 使用了form组件之后会默认绑定上this.form
-      this.form.validateFields((err, values) => {
-        if(!err) {
-          console.log('登录--->', values);
+    async handleSubmit() {
+      try {
+        const params ={ 
+          username: 'zhangjiawei',
+          password: 12334555
         }
-      })
+        const data = await this.$apis.loginApi.login(params)
+        if(data.code === 200 && data.data.token) {
+          store.set('token', data.data.token)
+          store.set('username', data.data.username)
+        }else {
+          throw data
+        }
+      } catch(e) {
+        console.log('错误--->', e);
+      }
+      // e.preventDefault();
+      // // 使用了form组件之后会默认绑定上this.form
+      // this.form.validateFields((err, values) => {
+      //   if(!err) {
+      //     console.log('登录--->', values);
+      //   }
+      // })
     },
     handleChange(value) {
       console.log(value);
@@ -232,6 +248,7 @@ export default {
       height: 29px;
       background-repeat: no-repeat;
       background-size: 100%;
+      cursor: pointer;
       margin-right: 20px;
       &:nth-of-type(2) {
         background-position: 0 -28.7px;
